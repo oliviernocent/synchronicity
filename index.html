@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Synchronicity</title>
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+    <script src="script.js"></script>
+</head>
+
+<body>
+    <div class="container grid-sm">
+        <div class="hero hero-sm bg-dark">
+            <div class="hero-body">
+                <h1>Synchronicity</h1>
+                <p>computes time when two beats with different <em>bpm</em> get synchronized</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">
+                Frequency
+                <input id="frequency" class="form-input" type="number" min="100" max="44100" step="1" value="44100">
+            </label>
+            <label class="form-label">
+                bpm #1
+                <input id="bpm1" class="form-input" type="number" min="1" max="120" step="1" value="60">
+            </label>
+            <label class="form-label">
+                bpm #2
+                <input id="bpm2" class="form-input" type="number" min="1" max="120" step="1" value="80">
+            </label>
+        </div>
+
+        <p class="text-primary bg-secondary mt-2 p-2">
+            The two beats get synchronized every <strong id="samples"></strong> samples (<strong id="seconds"></strong>
+            seconds).
+        </p>
+
+        <h2>How does it work?</h2>
+
+        <p>
+            Given a number of <em>beats per minute</em>, one can compute the time interval between
+            two ticks expressed in samples (fraction of a second) according to the sampling frequency.
+        </p>
+
+        <pre>interval = frequency * 60 / bpm</pre>
+
+        <p>
+            The time interval when two beats get synchronized again is the
+            <a href="https://en.wikipedia.org/wiki/Least_common_multiple" target="_blank">Least Common Multiplier</a>
+            (lcm)
+            of the two input intervals. This computation can be a bit tricky since it relies on the prime factorization
+            of the two input integers. Fortunately, the lcm is closely related to the
+            <a href="https://en.wikipedia.org/wiki/Greatest_common_divisor" target="_blank">Greatest Common Divisor</a>
+            (gcd).
+        </p>
+
+        <pre>lcm(a,b) = a * b / gcd(a,b)</pre>
+
+        <p>
+            <em>What the heck!</em> The computation of the gcd also relies on the prime factorization of the two
+            input integers. But, thanks to the <a href="" target="_blank">Euclidean algorithm</a>, there is a
+            much more efficient way to compute the gcd using this equation : 
+        </p>
+
+        <pre>gcd(a,b) = gcd(b,a mod b) and gcd(a,0) = a</pre>
+
+        <p>
+            Finally, the time expressed in seconds can be retrieved by dividing the sample count by the 
+            sampling frequency. 
+        </p>
+
+        <pre>time = interval / frequency</pre>
+
+        <p>
+            <em>That's all folks!</em>
+        </p>
+
+        <p class="mb-2">
+            Olivier Nocent<br>
+            Senior lecturer at the University of Reims, France
+        </p>
+
+        </p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            let frequencyInput = document.querySelector('#frequency');
+            let bpm1Input = document.querySelector('#bpm1');
+            let bpm2Input = document.querySelector('#bpm2');
+
+            let samples = document.querySelector('#samples');
+            let seconds = document.querySelector('#seconds');
+
+            function update() {
+                let frequency = frequencyInput.value;
+                let bpm1 = bpm1Input.value;
+                let bpm2 = bpm2Input.value;
+
+                let interval = lcm(Math.round(60 * frequency / bpm1), Math.round(60 * frequency / bpm2));
+                samples.textContent = interval;
+                seconds.textContent = Math.floor(interval * 1000 / frequency) / 1000;
+            }
+
+            frequencyInput.addEventListener('input', () => update());
+            bpm1Input.addEventListener('input', () => update());
+            bpm2Input.addEventListener('input', () => update());
+
+            update();
+        });
+    </script>
+</body>
+
+</html>
