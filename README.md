@@ -39,3 +39,7 @@ time = interval / frequency</pre>
 ```
 
 **That's all folks!**
+
+---
+
+Try the live [demo](https://oliviernocent.github.io/synchronicity/).
