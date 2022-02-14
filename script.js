@@ -26,3 +26,10 @@ function gcd(a, b) {
 function lcm(a, b) {
     return a * b / gcd(a, b);
 }
+
+/*
+ * Time interval when beats get synchronized again
+ */
+function computeSynchronizationInterval(frequency, bpm1, bpm2) {
+    return lcm(Math.round(60 * frequency / bpm1), Math.round(60 * frequency / bpm2));
+}
