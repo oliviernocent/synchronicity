@@ -24,7 +24,10 @@ function gcd(a, b) {
  * Least Common Multiple
  */
 function lcm(a, b) {
-    return a * b / gcd(a, b);
+    if (a === b)
+        return a;
+    else
+        return a * b / gcd(a, b);
 }
 
 /*
