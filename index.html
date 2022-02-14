@@ -76,12 +76,12 @@
         <p>
             <em>That's all folks!</em>
         </p>
+        
+        <hr>
 
-        <p class="mb-2">
+        <p>
             Olivier Nocent<br>
             Senior lecturer at the University of Reims, France
-        </p>
-
         </p>
     </div>
 
@@ -99,7 +99,7 @@
                 let bpm1 = bpm1Input.value;
                 let bpm2 = bpm2Input.value;
 
-                let interval = lcm(Math.round(60 * frequency / bpm1), Math.round(60 * frequency / bpm2));
+                let interval = computeSynchronizationInterval(frequency, bpm1, bpm2);
                 samples.textContent = interval;
                 seconds.textContent = Math.floor(interval * 1000 / frequency) / 1000;
             }
