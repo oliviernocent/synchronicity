@@ -28,14 +28,14 @@ input integers. But, thanks to the [Euclidean algorithm](https://en.wikipedia.or
 much more efficient way to compute the gcd using this equation : 
 
 ```
-<pre>gcd(a,b) = gcd(b,a mod b) and gcd(a,0) = a</pre>
+gcd(a,b) = gcd(b,a mod b) and gcd(a,0) = a
 ```
 
 Finally, the time expressed in seconds can be retrieved by dividing the sample count by the 
 sampling frequency. 
 
 ```
-time = interval / frequency</pre>
+time = interval / frequency
 ```
 
 **That's all folks!**
